@@ -62,6 +62,7 @@ import pyterrier_dr
 | [`Ance`](https://arxiv.org/abs/2007.00808) | ✅ | ✅ | ✅ |
 | [`Query2Query`](https://neeva.com/blog/state-of-the-art-query2query-similarity) | ✅ | | |
 | [`BGE-M3`](https://arxiv.org/abs/2402.03216) | ✅ | ✅ | ✅|
+| [`Qwen`](https://huggingface.co/Qwen/Qwen3-Embedding-0.6B) | ✅ | ✅ | ✅ |
 
 ## Inference
 
@@ -224,6 +225,59 @@ indexing_pipeline.index(pt.get_dataset(f"irds:mmarco/v2/fr").get_corpus_iter())
     index = FlexIndex(f"mmarco/v2/fr_bgem3", verbose=True)
 
     pipeline = encoder >> idx.np_retriever()
+```
+
+## Qwen3 Embedding Encoder
+
+`pyterrier_dr` supports using the Qwen3-Embedding model for dense retrieval. The Qwen encoder provides high-quality embeddings with instruction-following capabilities.
+
+### Basic Usage
+
+```python
+from pyterrier_dr import Qwen
+
+# Create the encoder (uses Qwen/Qwen3-Embedding-0.6B by default)
+qwen = Qwen()
+
+# Encode queries and documents
+query_encoder = qwen.query_encoder()
+doc_encoder = qwen.doc_encoder()
+```
+
+### Configuration Options
+
+```python
+qwen = Qwen(
+    model_name='Qwen/Qwen3-Embedding-0.6B',  # HuggingFace model name
+    batch_size=32,                            # Batch size for encoding
+    max_length=8192,                          # Maximum sequence length
+    use_fp16=True,                            # Use FP16 for faster inference on GPU
+    task_description='Given a web search query, retrieve relevant passages that answer the query',
+    add_instruction_to_query=True             # Add instruction prefix to queries
+)
+```
+
+### Indexing
+
+```python
+from pyterrier_dr import Qwen, FlexIndex
+
+qwen = Qwen(batch_size=32, verbose=True)
+index = FlexIndex("msmarco_passage_qwen.flex")
+
+indexing_pipeline = qwen >> index
+indexing_pipeline.index(pt.get_dataset('irds:msmarco-passage').get_corpus_iter())
+```
+
+### Retrieval
+
+```python
+qwen = Qwen(batch_size=32)
+encoder = qwen.query_encoder()
+index = FlexIndex("msmarco_passage_qwen.flex")
+
+pipeline = encoder >> index.np_retriever()
+pipeline.search('what is machine learning')
 ```
 
 ## References

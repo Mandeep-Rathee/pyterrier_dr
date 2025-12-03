@@ -126,6 +126,8 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+test.py
+msmarco_passage_qwen.flex
 
 # Pyre type checker
 .pyre/
