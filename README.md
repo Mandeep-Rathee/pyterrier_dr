@@ -264,8 +264,9 @@ from pyterrier_dr import Qwen, FlexIndex
 
 qwen = Qwen(batch_size=32, verbose=True)
 index = FlexIndex("msmarco_passage_qwen.flex")
+encoder = qwen.doc_encoder()
 
-indexing_pipeline = qwen >> index
+indexing_pipeline = encoder >> index
 indexing_pipeline.index(pt.get_dataset('irds:msmarco-passage').get_corpus_iter())
 ```
 
