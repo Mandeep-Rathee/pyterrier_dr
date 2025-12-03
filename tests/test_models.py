@@ -198,6 +198,10 @@ class TestModels(unittest.TestCase):
         from pyterrier_dr import GTR
         self._base_test(GTR.base())
 
+    def test_qwen(self):
+        from pyterrier_dr import Qwen
+        self._base_test(Qwen())
+
     def test_query2query(self):
         from pyterrier_dr import Query2Query
         self._base_test(Query2Query(), test_doc_encoder=False, test_scorer=False, test_indexer=False, test_retriever=False)

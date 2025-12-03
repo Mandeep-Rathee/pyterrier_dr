@@ -20,6 +20,7 @@ These classes are convenience aliases to popular dense encoding models.
 .. autoclass:: pyterrier_dr.E5()
 .. autoclass:: pyterrier_dr.GTR()
 .. autoclass:: pyterrier_dr.Query2Query()
+.. autoclass:: pyterrier_dr.Qwen()
 .. autoclass:: pyterrier_dr.RetroMAE()
 .. autoclass:: pyterrier_dr.TasB()
 .. autoclass:: pyterrier_dr.TctColBert()
